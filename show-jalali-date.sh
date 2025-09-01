@@ -35,14 +35,14 @@ def gregorian_to_jalali(gy, gm, gd):
     else:
         jm = 7 + (days - 186) // 30
         jd = 1 + ((days - 186) % 30)
-    return jy + 1, jm, jd
+    return jy, jm, jd  # fixed: no +1
 
-MONTHS = ["فروردین","اردیبهشت","خرداد","تیر","مرداد","شهریور",
-          "مهر","آبان","آذر","دی","بهمن","اسفند"]
+MONTHS = ["Farvardin","Ordibehesht","Khordad","Tir","Mordad","Shahrivar",
+          "Mehr","Aban","Azar","Dey","Bahman","Esfand"]
 
 t = date.today()
 jy, jm, jd = gregorian_to_jalali(t.year, t.month, t.day)
 month_name = MONTHS[jm-1]
-print(f"📅 امروز تاریخ شمسی: {jy:04d}/{jm:02d}/{jd:02d} ({jd} {month_name})")
-print(f"🔢 شماره روز در ماه: {jd}")
+print(f"📅 Today’s Jalali date: {jy:04d}/{jm:02d}/{jd:02d} ({jd} {month_name})")
+print(f"🔢 Day of month: {jd}")
 PY

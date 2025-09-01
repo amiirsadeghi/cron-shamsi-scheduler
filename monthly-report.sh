@@ -1,11 +1,15 @@
-#this is example, it should be your main report 
-
-
 #!/usr/bin/env bash
 set -euo pipefail
 
-echo "[cron-jalali] Monthly task started at $(date -Is)"
+# Example monthly job script. Replace with your real logic.
+echo "[cron-shamsi] Monthly task started at $(date -Is)"
 
+# Example webhook (disabled):
+# curl -sS -X POST "https://example.com/webhook" -H 'Content-Type: application/json' \
+#   -d '{"message":"Monthly report triggered (Jalali day 1)."}' >/dev/null
 
-echo "[cron-jalali] Monthly task finished at $(date -Is)"
-exit 0
+# Example: call other scripts here
+# /usr/local/bin/generate-report.sh
+# /usr/local/bin/upload-to-storage.sh
+
+echo "[cron-shamsi] Monthly task finished at $(date -Is)"

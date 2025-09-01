@@ -1,17 +1,23 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Path of the script that should run on the 1st day of each Jalali month.
+# Can be overridden via environment: REPORT_SCRIPT=/path/to/your-script.sh
 REPORT_SCRIPT="${REPORT_SCRIPT:-/usr/local/bin/monthly-report.sh}"
 
-# FORCE=1 ./check-first-day.sh
+# Optional: force execution for manual testing (skips date check)
+# Usage: FORCE=1 check-first-day.sh
 if [[ "${FORCE:-0}" == "1" ]]; then
   exec "$REPORT_SCRIPT"
 fi
 
+# We need python3 for the conversion
 if ! command -v python3 >/dev/null 2>&1; then
+  # Exit silently to avoid cron spam
   exit 0
 fi
 
+# Run embedded Python to get Jalali day-of-month. Exit with code 10 if jd == 1.
 python3 - <<'PY'
 from datetime import date
 import sys
@@ -42,7 +48,7 @@ def gregorian_to_jalali(gy, gm, gd):
     else:
         jm = 7 + (days - 186) // 30
         jd = 1 + ((days - 186) % 30)
-    return jy + 1, jm, jd
+    return jy, jm, jd  # fixed: no +1
 
 t = date.today()
 jd = gregorian_to_jalali(t.year, t.month, t.day)[2]
